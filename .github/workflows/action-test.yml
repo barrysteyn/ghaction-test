@@ -1,0 +1,21 @@
+name: Test for GHAction
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  Deploy-Staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+            node-version: 18
+            cache: 'npm'
+      - name: Advance Version
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          npm version minor -m "Version %s"
+          git push origin main --tags
